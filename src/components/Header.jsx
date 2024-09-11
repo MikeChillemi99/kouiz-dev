@@ -1,8 +1,4 @@
-import { useState } from "react"
-
-function Header() {
-
-    const [search, setSearch] = useState("")
+function Header({ onSearch }) {
 
     return (
       <div className="w-auto h-20 flex justify-around items-center">
@@ -12,10 +8,15 @@ function Header() {
         </div>
         {/* Search bar */}
         <div>
-          <input className="p-2 pl-2 pr-2 rounded-xl" type="text" placeholder="Chercher un quizz" onChange={(e) => {
-            setSearch(e.target.value);
-            console.log("search" + search);
-          }} />
+          <input
+              className="p-2 pl-2 pr-2 rounded-xl"
+              type="text"
+              placeholder="Chercher un quizz"
+              onChange={(e) => {
+                // Get the value of my search bar and pass it to my Parent component
+                onSearch(e.target.value);
+              }}
+          />
         </div>
       </div>
     )

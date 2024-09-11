@@ -56,10 +56,12 @@ function App() {
     fetchSelectQuizz(quizz.id)
   };
 
+  // Go back from a quizz
   const handleQuizzBack = () => {
     setisInQuizz(false)
   };
-
+  
+  // Delete a quizz with confirm
   const handleDeleteQuizz = (selectedQuizzId) => {
     console.log("id a del : " + selectedQuizzId)
     let answer = window.confirm("Voulez-vous supprimer ce quizz ?");

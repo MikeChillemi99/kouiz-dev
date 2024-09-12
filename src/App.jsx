@@ -79,7 +79,7 @@ function App() {
       <Header
         onSearch={setSearch}
       />
-      <div className="w-auto h-screen flex justify-center items-start m-48">
+      <div className="w-auto flex justify-center items-start m-48">
       {isInQuizz ? (
         <Quizz
           quizzName={selectedQuizz.name}

@@ -13,7 +13,7 @@ function ItemList( { quizzs, search, onQuizzClick, onDeleteClick } ) {
         {filteredQuizzs.map((quizz) => (
         <div>
             <button
-                className="absolute text-m p-2 rounded font-bold text-white hover:bg-red-400 hover:text-black"
+                className="absolute text-xl p-2 rounded font-bold text-white hover:text-red-500"
                 onClick={() => onDeleteClick(quizz.id)}
             >
             X

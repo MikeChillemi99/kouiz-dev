@@ -10,6 +10,7 @@ function App() {
   const [isInQuizz, setisInQuizz] = useState(false);
   const [selectedQuizz, setSelectedQuizz] = useState([]);
   const [quizzQuestions, setQuizzQuestions] = useState([]);
+  const [optionMode, setOptionMode] = useState(true);
 
   // Fetch quizzs
   useEffect(() => {
@@ -60,6 +61,10 @@ function App() {
   const handleQuizzBack = () => {
     setisInQuizz(false)
   };
+
+  const handleToggleOptionMode = () => {
+    setOptionMode(!optionMode);
+  };
   
   // Delete a quizz with confirm
   const handleDeleteQuizz = (selectedQuizzId) => {
@@ -78,6 +83,8 @@ function App() {
     <>
       <Header
         onSearch={setSearch}
+        optionMode={optionMode}
+        onToggleOptionMode={handleToggleOptionMode}
       />
       <div className="w-auto flex justify-center items-start m-48">
       {isInQuizz ? (
@@ -90,6 +97,7 @@ function App() {
         <ItemList
           quizzs={quizzs}
           search={search}
+          optionMode={optionMode}
           onQuizzClick={handleQuizzClick}
           onDeleteClick={handleDeleteQuizz}
         />

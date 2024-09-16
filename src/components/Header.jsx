@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faTimes  } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
 
 function Header({ onSearch, optionMode, onToggleOptionMode}) {
 

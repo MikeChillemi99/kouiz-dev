@@ -2,12 +2,16 @@ import Item from "./Item"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
-function ItemList( { quizzs, search, optionMode, onQuizzClick, onDeleteClick } ) {
+function ItemList( { quizzs, search, optionMode, onQuizzClick, onDeleteClick, onClickCreateMode } ) {
 
     // Filter for get the quizz from the value of the search bar
     const filteredQuizzs = quizzs.filter((quizz) =>
         quizz.name.toLowerCase().includes(search.toLowerCase())
     );
+
+    const handleCreateQuizz = () => {
+        onClickCreateMode();
+    };
 
     return (
     /* Display my quizzs name */
@@ -31,13 +35,16 @@ function ItemList( { quizzs, search, optionMode, onQuizzClick, onDeleteClick } )
         </div>
         ))}
         {!optionMode && (
-            <div className="bg-indigo-500 bg-opacity-25 rounded-lg border-2 text-5xl text-white border-white p-4 h-full flex items-center justify-center cursor-pointer hover:bg-indigo-600">
-                {/* Add a new quizz */}
-                <button
-                    className="hover:text-green-500"
-                >
-                    <FontAwesomeIcon icon={faPlusCircle} />
-                </button>
+            <div
+            className="bg-indigo-500 bg-opacity-25 rounded-lg border-2 text-5xl text-white border-white p-4 h-full flex items-center justify-center cursor-pointer hover:bg-indigo-600"
+            >
+            {/* Add a new quizz */}
+            <button
+                className="hover:text-green-500"
+                onClick={handleCreateQuizz}
+            >
+                <FontAwesomeIcon icon={faPlusCircle} />
+            </button>
             </div>
         )}
     </div>

@@ -1,6 +1,7 @@
 import Header from "./components/Header"
 import ItemList from "./components/ItemList";
 import Quizz from "./components/Quizz";
+import CreateQuizz from "./components/CreateQuizz";
 import { useState, useEffect } from "react"
 import { supabase } from "./client"
 
@@ -10,7 +11,12 @@ function App() {
   const [isInQuizz, setisInQuizz] = useState(false);
   const [selectedQuizz, setSelectedQuizz] = useState([]);
   const [quizzQuestions, setQuizzQuestions] = useState([]);
-  const [optionMode, setOptionMode] = useState(true);
+  const [optionMode, setOptionMode] = useState(false);
+
+  const [isInCreate, setIsInCreate] = useState(false);
+  const [quizz, setQuizz] = useState({
+    quizzname:''
+  })
 
   // Fetch quizzs
   useEffect(() => {
@@ -34,6 +40,14 @@ function App() {
     setQuizzQuestions(data);
   }
 
+  // Create a new quizz
+  async function createQuizz() {
+    await supabase
+    .from('quizz')
+    .insert({name: quizz.quizzname })
+    console.log("Quizz created")
+  }
+
   // Delete quizz with id
   async function deleteSelectQuizz(selectedQuizzId) {
     const { data, error } = await supabase
@@ -51,6 +65,13 @@ function App() {
     }
   }
 
+  const handleQuizzName = (event) => {
+    setQuizz((prevFormData) => ({
+      ...prevFormData,
+      quizzname: event.target.value
+    }));
+  };
+
   const handleQuizzClick = (quizz) => {
     setSelectedQuizz(quizz);
     setisInQuizz(true)
@@ -59,7 +80,8 @@ function App() {
 
   // Go back from a quizz
   const handleQuizzBack = () => {
-    setisInQuizz(false)
+    setisInQuizz(false);
+    setIsInCreate(false);
   };
 
   const handleToggleOptionMode = () => {
@@ -79,6 +101,10 @@ function App() {
     }
   };
 
+  const handleCreateMode = () => {
+    setIsInCreate(true);
+  }
+
   return (
     <>
       <Header
@@ -87,21 +113,28 @@ function App() {
         onToggleOptionMode={handleToggleOptionMode}
       />
       <div className="w-auto flex justify-center items-start m-48">
-      {isInQuizz ? (
-        <Quizz
-          quizzName={selectedQuizz.name}
-          quizzQuestions={quizzQuestions}
-          onBackClick={handleQuizzBack}
-        />
-      ) : (
-        <ItemList
-          quizzs={quizzs}
-          search={search}
-          optionMode={optionMode}
-          onQuizzClick={handleQuizzClick}
-          onDeleteClick={handleDeleteQuizz}
-        />
-      )}
+        {isInCreate ? (
+          <CreateQuizz
+            onBackClick={handleQuizzBack} 
+            onSubmitNewQuizz={createQuizz}   
+            onChangeQuizzName={handleQuizzName} 
+          />
+        ) : isInQuizz ? (
+          <Quizz
+            quizzName={selectedQuizz.name}
+            quizzQuestions={quizzQuestions}
+            onBackClick={handleQuizzBack}
+          />
+        ) : (
+          <ItemList
+            quizzs={quizzs}
+            search={search}
+            optionMode={optionMode}
+            onQuizzClick={handleQuizzClick}
+            onDeleteClick={handleDeleteQuizz}
+            onClickCreateMode={handleCreateMode}
+          />
+        )}
       </div>
     </>
   )
